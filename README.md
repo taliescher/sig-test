@@ -76,7 +76,7 @@ Only rows that match the filter string for this column should be displayed.
 -   Start the development server with `yarn start`
 -   Run tests with `yarn test`
     -   Jest is already available as a test framework
--   Don't add any additional libraries
+-   Add additional libraries if you think they are necessary (please document what you've added in the section below)
 -   Don't change the `./src/data.json` file
 -   If anything is unclear don't hesitate to contact us
 
