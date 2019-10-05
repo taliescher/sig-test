@@ -21,22 +21,43 @@ th {
 
 .table__row:hover {
   background: #f8f8f8;
-  /* background: linear-gradient(white 10%, #f8f8f8 10% 90%, white 90%); */
+  background: linear-gradient(white 10%, #f8f8f8 10% 90%, white 90%);
   cursor: pointer;  
 }
 
 .cell {
-  padding: 12px 24px;
+  padding: 12px;
 }
 
 .table__header {
   border-bottom: 1px solid #afafaf;
 }
+
 .table__header .cell {
   vertical-align: top;
 }
 
 .table__button {
   border: none;
-  position: absolute;
+  outline: none;
+  cursor: pointer;
+  opacity: .7;
+  transition: all 0.2s ease;
+  position: relative;
+  bottom: -2px;
+}
+
+.table__button:hover {
+  opacity: 1;
+}
+
+.table__filter {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px 0;
+  display: block;
+  width: -webkit-fill-available;
+  outline: none;
 }
