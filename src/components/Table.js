@@ -8,7 +8,7 @@ const formatDate = (date) =>
   date
     .split('-')
     .map(el => el.replace(/^0+/, ''))
-    .join('/')
+    .join('/') || ''
 
 const formatCurrency = (currency) =>
   currency > -1 ? [...currency.toString()]
@@ -62,7 +62,7 @@ const Table = ({ tableData }) => {
               <input
                 onInput={e => filter(e, column.id)}
                 className="table__filter"
-                placeholder={`e.g. ${formatedRows[0][column.id] || 0}`}
+                placeholder={`e.g. ${rows[0][column.id]}`}
               />
             </th>
           ))}
