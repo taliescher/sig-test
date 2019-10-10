@@ -1,5 +1,8 @@
-root {
-  display: flex;
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap');
+
+body {
+  font-family: 'Inconsolata', monospace;
+  padding-bottom: 60px;
 }
 
 .table {
@@ -10,6 +13,24 @@ root {
 
 th {
   font-weight: normal;
+  font-size: .9rem;
+}
+
+th {
+  max-width: 230px;
+}
+
+th:first-of-type {
+  max-width: 40px;
+}
+
+.table__filter {
+  display: flex;
+}
+
+.table__filter > svg {
+  opacity: .6;
+  margin: 15px 8px 0 0;
 }
 
 .table__row {
@@ -21,7 +42,6 @@ th {
 
 .table__row:hover {
   background: #f8f8f8;
-  background: linear-gradient(white 10%, #f8f8f8 10% 90%, white 90%);
   cursor: pointer;  
 }
 
@@ -31,6 +51,7 @@ th {
 
 .table__header {
   border-bottom: 1px solid #afafaf;
+  font-weight: bold;
 }
 
 .table__header .cell {
@@ -51,7 +72,7 @@ th {
   opacity: 1;
 }
 
-.table__filter {
+.table__filter--input {
   border: none;
   border-bottom: 1px solid #ccc;
   width: 100%;
@@ -60,4 +81,103 @@ th {
   display: block;
   width: -webkit-fill-available;
   outline: none;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  outline: none;
+  background-color: blue;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: .8;
+  transition: all .2s ease;
+}
+
+.floating-button:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+.floating-button:active {
+  opacity: 1;
+}
+
+.modal__area {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  margin: auto;
+  background-color: white;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal * {
+  margin: 5px 10px;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__button {
+  border: none;
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  opacity: .8;
+  transition: all .2s ease;
+  border-radius: 2px;
+}
+
+.modal__button:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.modal__input {
+  border: none;
+  border-bottom: 1px solid #ececec;
+  padding: 0px 10px 5px 0;
+  outline: none;
+}
+
+.modal__close {
+  transform: rotate(45deg);
+  margin: 0 0 20px auto;
+  opacity: .5;
+  transition: all .2s ease;
+}
+
+.modal__close:hover {
+  opacity: 1;
+  cursor: pointer;
+  border-radius: 40px;
+  background-color: #ececec;
+}
+
+.alert {
+  color: red;
+  text-align: center;
+  margin: 10px auto 0;
 }
