@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Icon from './Icon'
+import IosSearch from 'react-ionicons/lib/IosSearch'
+import AddItemFloatingButton from './AddItemFloatingButton'
+import AddItemModal from './AddItemModal'
 
 const formatTitle = (title) =>
   title === 'Number' ? '#' : title.replace(/in\s\$$/g, () => '(in $)')
@@ -32,59 +35,75 @@ const orderRows = (order, id, rows) => {
 
 const Table = ({ tableData }) => {
   const { columns, rows } = tableData
+  const [isModalOpen, toggleModal] = useState(false);
+  const [extendedRows, addItem] = useState(rows)
   const [order, updateOrder] = useState({ id: '', asc: true })
-  const [formatedRows, updateRows] = useState(rows)
+  const [formatedRows, updateRows] = useState(extendedRows)
+
+  const saveMovie = (item) => {
+    addItem([...extendedRows, { number: extendedRows.length + 1, ...item }])
+    updateRows([...extendedRows, { number: extendedRows.length + 1, ...item }])
+    toggleModal(false)
+  }
 
   const formatRows = id => {
     updateOrder({ id: id, asc: order.id === id ? !order.asc : false })
-    updateRows(orderRows(order.asc, id, rows.slice()))
+    updateRows(orderRows(order.asc, id, extendedRows.slice()))
   }
 
   const filter = (e, id) =>
-    updateRows(rows.filter(el => el[id].toString().toLowerCase().includes(e.target.value.toLowerCase())))
+    updateRows(extendedRows.filter(el => el[id].toString().toLowerCase().includes(e.target.value.toLowerCase())))
 
   return (
-    <table className="table">
-      <thead className="table__header">
-        <tr>
-          {columns.map(column => (
-            <th
-              className="cell"
-              key={ `column-${ column.id }` }
-            >
-              { formatTitle(column.title) }
-              <button
-                className="table__button"
-                onClick={ () => formatRows(column.id) }
+    <>
+      <table className="table">
+        <thead className="table__header">
+          <tr>
+            {columns.map(column => (
+              <th
+                className="cell"
+                key={ `column-${ column.id }` }
               >
-                <Icon asc={order.id === column.id && order.asc} />
-              </button>
-              <input
-                onInput={e => filter(e, column.id)}
-                className="table__filter"
-                placeholder={`e.g. ${rows[0][column.id]}`}
-              />
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {formatedRows.map(( row ) => (
-          <tr className="table__row" key={`row-${ row.number }`}>
-            <td className="cell">{ row.number }</td>
-            <td className="cell">{ row.title }</td>
-            {/* Here i'm aware there are formal ways of handling data
-                (e.g.: value.toLocaleString(). I am using a pure function
-                in order to show my skills in the matter. */}
-            <td className="cell">{ formatDate(row.releaseDate) }</td>
-            {/* Same thing below. I'm aware of formal ways of resolving
-                currency, but i'm using a pure function to brag */}
-            <td className="cell" align="right">{ formatCurrency(row.productionBudget) }</td>
-            <td className="cell" align="right">{ formatCurrency(row.worldwideBoxOffice) }</td>
+                { formatTitle(column.title) }
+                <button
+                  className="table__button"
+                  onClick={ () => formatRows(column.id) }
+                >
+                  <Icon asc={order.id === column.id && order.asc} />
+                </button>
+                <div className="table__filter">
+                  <IosSearch />
+                  <input
+                    onInput={e => filter(e, column.id)}
+                    className="table__filter--input"
+                    placeholder={`e.g. ${rows[0][column.id]}`}
+                  />
+                </div>
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {formatedRows.map(( row ) => (
+            <tr className="table__row" key={`row-${ row.number }`}>
+              <td className="cell">{ row.number }</td>
+              <td className="cell">{ row.title }</td>
+              {/* Here i'm aware there are formal ways of handling data
+                  (e.g.: value.toLocaleString(). I am using a pure function
+                  in order to show my skills in the matter. */}
+              <td className="cell">{ formatDate(row.releaseDate) }</td>
+              {/* Same thing below. I'm aware of formal ways of resolving
+                  currency, but i'm using a pure function to brag */}
+              <td className="cell" align="right">{ formatCurrency(row.productionBudget) }</td>
+              <td className="cell" align="right">{ formatCurrency(row.worldwideBoxOffice) }</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <AddItemFloatingButton action={(boolean) => toggleModal(boolean)} />
+      { isModalOpen
+        && <AddItemModal save={(item) => saveMovie(item)} close={(boolean) => toggleModal(boolean)} />}
+    </>
   )
 }
 
